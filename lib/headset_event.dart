@@ -14,9 +14,9 @@ enum HeadsetState {
 
 class HeadsetEvent {
   
-  static HeadsetEvent _instance;
+  static HeadsetEvent? _instance;
   final MethodChannel _channel;
-  DetectPluggedCallback detectPluggedCallback;
+  DetectPluggedCallback? detectPluggedCallback;
 
   factory HeadsetEvent() {    
     if (_instance == null) {
@@ -24,9 +24,9 @@ class HeadsetEvent {
           const MethodChannel('flutter.moum/headset_event');
       _instance = HeadsetEvent.private(methodChannel);
     }
-    return _instance;
+    return _instance!;
   }
-  
+
   @visibleForTesting
   HeadsetEvent.private(this._channel);
 
@@ -56,16 +56,16 @@ class HeadsetEvent {
   Future<dynamic> _handleMethod(MethodCall call) async {
     switch(call.method) {
       case "connect":
-        return detectPluggedCallback(HeadsetState.CONNECT);
+        return detectPluggedCallback!(HeadsetState.CONNECT);
       case "disconnect":
-        return detectPluggedCallback(HeadsetState.DISCONNECT);
+        return detectPluggedCallback!(HeadsetState.DISCONNECT);
       case "nextButton":
-        return detectPluggedCallback(HeadsetState.NEXT);
+        return detectPluggedCallback!(HeadsetState.NEXT);
       case "prevButton":
-        return detectPluggedCallback(HeadsetState.PREV);
+        return detectPluggedCallback!(HeadsetState.PREV);
       default:
         print('No idea');
-        return detectPluggedCallback(HeadsetState.DISCONNECT);
+        return detectPluggedCallback!(HeadsetState.DISCONNECT);
     }
   }
 
