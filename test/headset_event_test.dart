@@ -6,26 +6,26 @@ import 'package:mockito/mockito.dart';
 typedef DetectPluggedCallback = Function(HeadsetState payload);
 
 void main() {
-  MockMethodChannel? methodChannel;
-  HeadsetEvent? he;
+  late MockMethodChannel methodChannel;
+  late HeadsetEvent he;
 
   setUp(() {
     methodChannel = MockMethodChannel();
-    he = HeadsetEvent.private(methodChannel!);
+    he = HeadsetEvent.private(methodChannel);
   });
 
   test('getCurrentState', () async {
-    when(methodChannel!.invokeMethod<int>('getCurrentState'))
+    when(methodChannel.invokeMethod<int>('getCurrentState'))
         .thenAnswer((Invocation invoke) => Future<int>.value(0));
-    expect(await he!.getCurrentState, HeadsetState.DISCONNECT);
+    expect(await he.getCurrentState, HeadsetState.DISCONNECT);
 
-    when(methodChannel!.invokeMethod<int>('getCurrentState'))
+    when(methodChannel.invokeMethod<int>('getCurrentState'))
         .thenAnswer((Invocation invoke) => Future<int>.value(1));
-    expect(await he!.getCurrentState, HeadsetState.CONNECT);
+    expect(await he.getCurrentState, HeadsetState.CONNECT);
 
-    when(methodChannel!.invokeMethod<int>('getCurrentState'))
+    when(methodChannel.invokeMethod<int>('getCurrentState'))
         .thenAnswer((Invocation invoke) => Future<int>.value(-1));
-    expect(await he!.getCurrentState, HeadsetState.DISCONNECT);
+    expect(await he.getCurrentState, HeadsetState.DISCONNECT);
 
   });
 }
